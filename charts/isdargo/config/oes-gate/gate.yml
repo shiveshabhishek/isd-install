@@ -130,8 +130,7 @@ services:
     baseUrl: http://spin-rosco:8087
     enabled: true
 {{- end }}
-  fiat:
-    enabled: false
+  user: {}
 cors:
   {{- if .Values.global.commonGate.enabled }}
   allowed-origins-pattern: ^https?://(?:localhost|{{ .Values.global.oesUI.host }}|{{ .Values.global.spinDeck.host }}|opsmx.com)(?::[1-9]\d*)?/?
@@ -159,14 +158,14 @@ ldap:
 {{- end }}
 {{- end }}
 {{- end }}
-{{- if .Values.gate.config.spring.security.saml2.enabled  }}
+{{- if .Values.gate.config.saml.enabled }}
 security:
   basic:
     enabled: true
-spring:
-  security:
-    saml2:
-{{ toYaml .Values.gate.config.spring.security.saml2 | indent 6 }}
+  user: {}
+
+saml:
+{{ toYaml .Values.gate.config.saml | indent 2 }}
 {{- end }}
 {{- if .Values.gate.config.oauth2.enabled }}
 security:
@@ -552,7 +551,7 @@ keycloak:
         display: SAML
         type: label
         helpText: "This page allows you to configure SAML Authentication providers such as Okta and Azure. Once this is enabled, the 'Sign in with SAML' option will be available on the ISD login screen. All users configured in your SAML authentication provider will be able to access ISD. Super admin users will continue to be able to log in using their current user id and password.
-        Follow the below steps to enable SAML Provider.
+        Follow the below steps to enable SAML Provider. 
         - Copy and Use the redirect URI as the ACS URL of the ISD application and Service Provider (Entity ID) while configuring your Identity Provider
         - Download the metadata XML from your Identity Provider and import it to ISD
         - Single Sign-On service URL will get auto-populated from the metadata XML

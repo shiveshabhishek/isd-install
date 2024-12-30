@@ -10,10 +10,10 @@ metadata:
 data:
   configFile: |
     serviceHostname: opsmx-controller-controller1
-    agentHostname: {{ .Values.forwarder.agent.host }}
-    remoteCommandHostname: {{ .Values.forwarder.agent.host }}
+    agentHostname: {{ .Values.forwarder.externalName | default (include "agent.hostname" .) }}
+    remoteCommandHostname: {{ .Values.forwarder.externalName | default (include "agent.hostname" .) }}
     controlHostname: opsmx-controller-controller1
-    agentAdvertisePort: 443
+    #agentAdvertisePort: "443"
     serverNames:
     {{- range .Values.forwarder.serverNames }}
       - {{ . }}
@@ -21,9 +21,6 @@ data:
     serviceAuth:
       currentKeyName: "public.pem"
       headerMutationKeyName: "public.pem"
-    agentAuth:
-      currentKeyName: authtoken
-      secretsPath: /app/secrets/agentAuth
     services:
       outgoingServices:
         - name: front50

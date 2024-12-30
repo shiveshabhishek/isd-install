@@ -1,0 +1,51 @@
+##### This file can be used for Installing ISD and Argo Rollouts ###############################
+global:
+  oesUI:
+    host: ISD.REPLACE.THIS.WITH.YOURCOMPANY.COM
+
+  keycloak:
+    host: KEYCLOAK.REPLACE.THIS.WITH.YOURCOMPANY.COM
+
+  argorollouts:
+    #specify the argorollouts url like argorollouts.ninja-test.opsmx.net
+    host: "ROLLOUTS.REPLACE.THIS.WITH.YOURCOMPANY.COM"
+
+#################################################################################
+argo-rollouts:
+  # Default set to true . Set to false if crds already exists in the cluster instead of deleting the CRDs
+  installCRDs: true
+#######################################################################################################################
+# Values of OEA Database
+db:
+  ## Set it to false if any external database is to be used
+  enabled: true
+  url: jdbc:postgresql://oes-db:5432
+  username: postgres
+  password: networks123
+
+################################################################################################
+## Redis configuration
+## Set it to false only if OES needs to be configured with external redis
+installRedis: true
+##########################################################################
+redis:
+  ## Change this to custom URL if installRedis is set to false
+  url: redis://:password@{{ .Release.Name }}-redis-master
+  port: 6379
+  # External Redis option will be enabled if in-cluster redis is disabled
+  external:
+    host: "<EXTERNAL-REDIS-HOST-NAME>"
+    port: 6379
+
+#####User doesn't need to change the below flags let it be the default one######################
+################################################################################################
+# installArgoCD enable true will install argo-cd,argo-rollouts,argo-workflows,argo-events,argocd-image-updater
+installArgoCD: false
+#######################################################################################
+# If installed ArgoCD set to true it will installdemoapps
+# Set to false if no applications to be displayed in ArgoCD as part of default installation
+installdemoapps: false
+#######################################################################################
+# Set to true if ISD needs to connect to ArgoCD using agent service
+autoconfigureagent: false
+#######################################################################################

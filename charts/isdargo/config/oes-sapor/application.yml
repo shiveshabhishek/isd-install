@@ -27,8 +27,6 @@ argo:
     newArgoAgentWithoutRolloutsTemplate: newargoagentwithoutrollouts.template
     newArgoAgentWithoutRolloutsWithoutUrlTemplate: newargoagentwithoutrolloutswithouturl.template
 
-controller:
-  token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 secretManagement:
   source:
     config: {{ .Values.secretStore }}

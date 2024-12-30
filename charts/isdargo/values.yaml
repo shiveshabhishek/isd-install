@@ -1,12 +1,12 @@
 ####################################################
 # installArgoCD enable true will install argo-cd,argo-rollouts,argo-workflows,argo-events,argocd-image-updater
-installArgoCD: false
+installArgoCD: true
 
 # install ingress-nginx if not installed in the cluster
 ingressnginx: false
 
 # installArgoRollouts enable true will install argo-rollouts
-installArgoRollouts: false
+installArgoRollouts: true
 
 # installArgoWorkflows enable true will install argo-workflows
 installArgoWorkflows: false
@@ -17,7 +17,7 @@ installArgoEvents: false
 # installArgoImageupdater enable true will install argocd-image-updater
 installArgoImageupdater: false
 
-installkeycloak: false
+installkeycloak: true
 
 ###########################################################################################
 #  OEA-AP Install OEA and Argo Services . Change to None if only Argo Services to be installed.
@@ -39,20 +39,16 @@ imageCredentials:
 #######################################################################################
 # If installed ArgoCD set to true it will installdemoapps
 # Set to false if no applications to be displayed in ArgoCD as part of default installation
-installdemoapps: false
+installdemoapps: true
 #######################################################################################
 # Set to true if ISD needs to connect to ArgoCD using agent service
-autoconfigureagent: false
+autoconfigureagent: true
 #######################################################################################
 # Set to true if ISD needs to connect to ArgoCD using carina service
 autoconfigurecarina: false
 #######################################################################################
 # The name provided will reflect in ISD Screen of CD Integration Page and the Agent Account name
 cdagentname: argocd
-######################################################################################
-userGroupsFromFile:
-  enabled: false #Enable it to true if user wants to display groups in the ISD UI
-
 #######################################################################################
 # Global Configuration
 ######################
@@ -81,7 +77,7 @@ global:
 
   oesUI:
     protocol: https
-    host: isd-nav.cnoe.opsmx.org
+    host: oes.example.ops.com
     # Use below port when hostname above is an external IP instead of a hostname
     #port: 31466
 
@@ -119,7 +115,7 @@ global:
 
   vela:
     protocol: https
-    host: vela-nav.cnoe.opsmx.org
+    host: vela.example.ops.com
     #port: 31464
 
     serviceAnnotations: {}
@@ -163,7 +159,7 @@ global:
         secretName: prometheus-ingress
 
   keycloak:
-    enabled: false
+    enabled: true
     host: keycloak.example.ops.com
 
     ingress:
@@ -293,8 +289,6 @@ global:
 argo-cd:
   crds:
     install: true
-    # -- Set to true if CRDs need to delete as part of chart uninstall
-    keep: false
 
   configs:
     cm:
@@ -835,7 +829,7 @@ argo-rollouts:
   # Default set to true . Set to false if crds already exists in the cluster instead of deleting the CRDs
   installCRDs: true
   #Set to false if crds to be deleted as part of helm uninstall
-  keepCRDs: false
+  keepCRDs: true
   controller:
     replicas: 1
   notifications:
@@ -1337,7 +1331,7 @@ carinamanager:
   ##
   image:
     repository: carina-manager
-    tag: v1.15.5-rc7
+    tag: v1.9.6
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1352,7 +1346,7 @@ carinamanager:
 carinainstance:
   image:
     repository: carina-instance
-    tag: v1.14.1
+    tag: v1.9.6
     pullPolicy: IfNotPresent
   
   serviceAnnotations: {}
@@ -1366,7 +1360,7 @@ carinainstance:
 vela:
   image:
     repository: vela-api
-    tag: v1.4.7
+    tag: v1.1.3
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1413,7 +1407,7 @@ ui:
   ## Image specific details
   image:
     repository: ubi8-oes-ui
-    tag: isd-argo-2024.08.00-202409060628
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1429,7 +1423,7 @@ autopilot:
   ## Image specific details
   image:
     repository: ubi8-oes-autopilot
-    tag: isd-argo-2024.08.00-202409030840
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   annotations:
@@ -1461,7 +1455,7 @@ audit:
   ##
   image:
     repository: ubi8-oes-audit-service
-    tag: isd-argo-2024.08.00-202409040940
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1482,7 +1476,7 @@ auditClient:
   ##
   image:
     repository: ubi8-oes-audit-client
-    tag: isd-argo-2024.08.00-202409031242
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1503,7 +1497,7 @@ datascience:
   ##
   image:
     repository: ubi8-oes-datascience
-    tag: isd-argo-2024.08.00-202409040513
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1521,7 +1515,7 @@ dashboard:
   ## Image specific details
   image:
     repository: ubi8-oes-dashboard
-    tag: isd-argo-2024.08.00-202409040942
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   annotations:
@@ -1554,7 +1548,7 @@ gate:
   ## Image specific details
   image:
     repository: ubi8-gate
-    tag: isd-argo-2024.08.00-202409031319
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1585,37 +1579,24 @@ gate:
     #####################################################
     # SAML AUthentication
     #####################################################
-    # openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out cert.pem
-    # kubectl create secret generic samlcerts --from-file key.pem --from-file cert.pem -n namespace
-    spring:
-      security:
-        saml2:
-          enabled: false
-          registration-id: SSO #change this to the application name in OKTA
-          relyingparty:
-            registration:
-              SSO:   #change this to the application name in OKTA
-                entity-id: saml-dev #change this to the Okta SP entity id
-                acs:
-                  location: https://<isd.opsmx.net>/saml/SSO  #Update ISD URL here
-                assertingparty:
-                  metadata-uri: https://dev.okta.com/app/exkf6qovkumombT5p5d7/sso/saml/metadata  #Update metadata URL here 
-                decryption: 
-                  credentials:
-                    - private-key-location: file:/opt/saml/certs/key.pem  
-                      certificate-location: file:/opt/saml/certs/cert.pem
-                  singlesignon.sign-request: true
-          user-attribute-mapping:
-            firstName: firstName
-            lastName: lastName
-            roles:
-              attributeName: memberOf  # Update attributeName here
-              sortRoles: true
-              forceLowercaseRoles: true
-              rolesDelimiter: ","
-            email: email
-          signatureDigest: SHA256
-          userSource: gate
+    # keytool -genkey -v -keystore oessaml.jks -alias saml -keyalg RSA -keysize 2048 -validity 10000
+    # oessaml.jks and oesmetadata.xml are mounted as secrets, create them as follows
+    # kubectl create secret generic oesmetadataxml --from-file=oesmetadata.xml -n <namespace>
+    # kubectl create secret generic oessamljks --from-file=oessaml.jks -n <namespace>
+    # kubectl create secret generic samljks-password --from-literal password=changeit -n <namespace>
+    saml:
+      enabled: false
+      userSource: gate  # Groups will be obtained from SAML
+      keyStore: /opt/spinnaker/saml/oessaml.jks  # The key in this secret must be oessaml.jks
+      keyStorePassword: changeit
+      keyStoreAliasName: saml
+      metadataUrl: /opt/spinnaker/saml/oesmetadata.xml # The key in this secret must be oesmetadata.xml
+      redirectProtocol: https
+      redirectHostname: oes-gate.ryzon7-gitops.opsmx.org  # OEA gate host name
+      redirectBasePath: /
+      issuerId: ryzonoesgate
+      jksSecretName: oessamljks
+      metadataSecretName: oesmetadataxml
 
     #####################################################
     #OAUTH2 Authentication for GitHub
@@ -1643,7 +1624,7 @@ platform:
   ## Image specific details
   image:
     repository: ubi8-oes-platform
-    tag: isd-argo-2024.08.00-202409061155
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   annotations:
@@ -1683,7 +1664,7 @@ sapor:
   ## Image specific details
   image:
     repository: ubi8-oes-sapor
-    tag: isd-argo-2024.08.00-202409061415
+    tag: v4.1.2.1
     pullPolicy: IfNotPresent
 
   annotations:
@@ -1743,7 +1724,7 @@ visibility:
   ## Image specific details
   image:
     repository: ubi8-oes-visibility
-    tag: isd-argo-2024.08.00-202409030837
+    tag: v4.1.2
     pullPolicy: IfNotPresent
 
   annotations:
@@ -1777,7 +1758,7 @@ saporgate:
   enabled: false
   image:
     repository: ubi8-oes-spin-gate
-    tag: isd-argo-2024.08.00-202409061415
+    tag: v3.12.0-saporgate
     pullPolicy: IfNotPresent
 
   serviceAnnotations: {}
@@ -1824,25 +1805,20 @@ vault:
 secretStore: db
 ###################################
 forwarder:
+  # Update the externalName if only ISD and Argo running in different cluster with DNS if not leave as it is
+  externalName:
   enabled: true
   agent:
-    image: quay.io/opsmxpublic/agent-client:v5.1.1
-    serviceType: ClusterIP
+    image: quay.io/opsmxpublic/forwarder-agent:v3.5.9
+    serviceType: LoadBalancer
     # Value is also used in sapor configuration for kubernetes.agent.serverHostName
-    host: nav-controller.cnoe.opsmx.org
-
-    ingress:
-      annotations:
-        kubernetes.io/ingress.class: nginx
-      tls:
-        secretName: controller-ingress
+    host: opsmx-controller-controller1
   image:
-    repository: quay.io/opsmxpublic/agent-controller
-    tag: v5.1.1
+    repository: quay.io/opsmxpublic/forwarder-controller
+    tag: v3.5.9
     pullPolicy: IfNotPresent
   serverNames:
     - agent-grpc
-  
 
   serviceAnnotations: {}
 

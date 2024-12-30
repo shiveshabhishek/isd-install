@@ -1,0 +1,37 @@
+##### This file can be used for Installing Only ISD Components ###############################
+# Update the controller URL which needs to be reachable from other clusters where ArgoCD is running
+# After installation, the DNS must be updated to point this to EXTERNAL-IP of the agent-grpc service
+# kubectl get svc -n opsmx-isd agent-grpc
+forwarder:
+  externalName: isd-controller-shi.cnoe.opsmx.org
+
+global:
+  oesUI:
+    # Please below string for all occurences in this file with proper dns entry to access the ISD UI eg: isdui.example.ops.com
+    host: isd-shi.cnoe.opsmx.org
+
+  keycloak:
+    # Please below string for all occurences in this file with proper dns entry to access the ISD UI eg: keycloak.example.ops.com
+    host: KEYCLOAK.cnoe.opsmx.org
+
+  vela:
+    # Please below string for all occurences in this file with proper dns entry to access the ISD UI eg: keycloak.example.ops.com$
+    host: vela-shi.cnoe.opsmx.org
+
+#######################################################################################################################
+# Values of OES Database
+db:
+  ## Set it to false if any external database is to be used
+  enabled: true
+  url: jdbc:postgresql://oes-db:5432
+  username: postgres
+  password: networks123
+
+#####User doesn't need to change the below flags let it be the default one######################
+installArgoCD: false
+######################################################################################
+installArgoRollouts: false
+#######################################################################################
+installdemoapps: false
+#######################################################################################
+autoconfigureagent: false
