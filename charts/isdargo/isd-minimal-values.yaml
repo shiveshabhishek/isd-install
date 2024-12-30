@@ -12,7 +12,7 @@ global:
 
   keycloak:
     # Please below string for all occurences in this file with proper dns entry to access the ISD UI eg: keycloak.example.ops.com
-    host: KEYCLOAK.REPLACE.THIS.WITH.YOURCOMPANY.COM
+    host: keycloak-shi.cnoe.opsmx.org
 
   vela:
     # Please below string for all occurences in this file with proper dns entry to access the ISD UI eg: keycloak.example.ops.com$
